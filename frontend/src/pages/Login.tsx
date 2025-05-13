@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { ClipboardCheck, AlertCircle } from 'lucide-react';
@@ -7,13 +7,20 @@ const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
-  const { login, loading } = useAuth();
+
+  const { login, loading, user } = useAuth(); // ✅ Only one useAuth()
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (user) {
+      navigate('/dashboard'); // ✅ Redirect if already logged in
+    }
+  }, [user, navigate]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
-    
+
     if (!email || !password) {
       setError('Please enter both email and password');
       return;
@@ -21,7 +28,7 @@ const Login = () => {
 
     const success = await login(email, password);
     if (success) {
-      navigate('/');
+      navigate('/dashboard'); // ✅ Go to dashboard after login
     } else {
       setError('Invalid email or password');
     }
@@ -39,7 +46,7 @@ const Login = () => {
             Sign in to access the employee verification system
           </p>
         </div>
-        
+
         <div className="card p-8">
           {error && (
             <div className="mb-4 bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-md flex items-start">
@@ -47,7 +54,7 @@ const Login = () => {
               <span>{error}</span>
             </div>
           )}
-          
+
           <form className="space-y-6" onSubmit={handleSubmit}>
             <div>
               <label htmlFor="email" className="form-label">
@@ -118,7 +125,7 @@ const Login = () => {
               </button>
             </div>
           </form>
-          
+
           <div className="mt-6">
             <div className="relative">
               <div className="absolute inset-0 flex items-center">
@@ -128,12 +135,12 @@ const Login = () => {
                 <span className="px-2 bg-white text-gray-500">Demo credentials</span>
               </div>
             </div>
-            
+
             <div className="mt-4 grid grid-cols-1 gap-3">
               <div className="bg-gray-50 p-3 rounded-md text-sm">
-                <p><strong>Global Admin:</strong> sanket@example.com / password</p>
-                <p><strong>Sub Admin:</strong> tanmai@example.com / password</p>
-                <p><strong>HR:</strong> hr@example.com / password</p>
+                <p><strong>Admin:</strong> sanket@example.com / password</p>
+                {/* <p><strong>Sub Admin:</strong> tanmai@example.com / password</p>
+                <p><strong>HR:</strong> hr@example.com / password</p> */}
               </div>
             </div>
           </div>

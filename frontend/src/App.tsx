@@ -4,7 +4,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 // Context and components
 import { AuthProvider } from './context/AuthContext';
 import Navbar from './components/Navbar';
-// import ProtectedRoute from './components/ProtectedRoute';
+import ProtectedRoute from './components/ProtectedRoute';
 import Layout from './components/Layout';
 
 // Pages
@@ -97,8 +97,15 @@ function App() {
                 }
               /> */}
 
+              
               {/* Dashboard nested inside Layout for main page structure */}
-              <Route path="/dashboard" element={<Layout />}>
+              <Route path="/login" element={<Login />} />
+              <Route path="/dashboard" element={
+  <ProtectedRoute>
+    <Layout />
+  </ProtectedRoute>
+}>
+
                 <Route index element={<Dashboard />} />
                 <Route path="add-intern" element={<AddIntern />} />
                 <Route path="add-employee" element={<AddEmployee />} />
