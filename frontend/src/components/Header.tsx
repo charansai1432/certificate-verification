@@ -9,7 +9,7 @@ const Header: React.FC = () => {
 
   const handleLogout = () => {
     // Here you could add any logout logic like clearing tokens/state
-    navigate('/');
+    navigate('/'); // Redirect to login page
     setShowProfileMenu(false);
   };
 
@@ -19,9 +19,9 @@ const Header: React.FC = () => {
         <h1>Admin Dashboard</h1>
       </div>
       <div className="header-actions">
-        <button className="header-btn" aria-label="Notifications">
-          <Bell size={20} />
-        </button>
+        {/* <button className="header-btn" aria-label="Notifications"> */}
+          {/* <Bell size={20} /> */}
+        {/* </button> */}
         <div className="user-profile-container">
           <button 
             className="user-profile"

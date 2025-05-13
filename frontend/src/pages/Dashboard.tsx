@@ -81,7 +81,7 @@ const Dashboard: React.FC = () => {
       </div>
       
       <div className="action-cards">
-        <Link to="/add-intern" className="action-card">
+        <Link to="add-intern" className="action-card">
           <div className="action-icon">
             <UserPlus size={24} />
           </div>
@@ -91,7 +91,7 @@ const Dashboard: React.FC = () => {
           </div>
         </Link>
         
-        <Link to="/add-employee" className="action-card">
+        <Link to="add-employee" className="action-card">
           <div className="action-icon">
             <Briefcase size={24} />
           </div>
@@ -100,7 +100,7 @@ const Dashboard: React.FC = () => {
             <p>Register a new employee to the system</p>
           </div>
         </Link>
-        <Link to="/add-admin" className="action-card">
+        <Link to="add-admin" className="action-card">
   <div className="action-icon">
     <UserPlus size={24} />
   </div>

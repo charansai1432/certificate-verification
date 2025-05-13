@@ -23,21 +23,21 @@ const Sidebar: React.FC = () => {
       </div>
       
       <nav className="sidebar-nav">
-        <NavLink to="/" className={({isActive}) => isActive ? 'nav-link active' : 'nav-link'} end>
+        {/* <NavLink to="/" className={({isActive}) => isActive ? 'nav-link active' : 'nav-link'} end>
           <Users size={20} />
           {!collapsed && <span>Dashboard</span>}
-        </NavLink>
-        <NavLink to="/add-intern" className={({isActive}) => isActive ? 'nav-link active' : 'nav-link'}>
-          <UserPlus size={20} />
-          {!collapsed && <span>Add Intern</span>}
-        </NavLink>
-        <NavLink to="/add-employee" className={({isActive}) => isActive ? 'nav-link active' : 'nav-link'}>
+        </NavLink> */}
+        {/* <NavLink to="/add-intern" className={({isActive}) => isActive ? 'nav-link active' : 'nav-link'}> */}
+          {/* <UserPlus size={20} /> */}
+          {/* {!collapsed && <span>Add Intern</span>} */}
+        {/* </NavLink> */}
+        {/* <NavLink to="/add-employee" className={({isActive}) => isActive ? 'nav-link active' : 'nav-link'}>
           <UserPlus size={20} />
           {!collapsed && <span>Add Employee</span>}
-        </NavLink>
+        </NavLink> */}
       </nav>
     </aside>
   );
 };
 
-export default Sidebar;
+export default Sidebar

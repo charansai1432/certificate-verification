@@ -16,10 +16,7 @@ import HRPortal from './pages/HRPortal';
 import Dashboard from './pages/Dashboard';
 import AddIntern from './pages/AddIntern';
 import AddEmployee from './pages/AddEmployee';
-
-// For potential admin routes (currently commented out in original)
- // if exists
-// import AdminDashboard from './pages/AdminDashboard';
+import AddAdmin from './pages/AddAdmin';
 
 import { Toaster } from 'react-hot-toast';
 
@@ -31,87 +28,38 @@ function App() {
       <Router>
         <Toaster position="top-right" />
 
-        {/* Navbar outside routes for consistent display */}
         <div className="min-h-screen bg-gray-50">
-    
           <Navbar />
           <main className="container mx-auto px-4 py-8">
-            {/* Define routes */}
             <Routes>
-              {/* Public routes */}
+
+              {/* Public Routes */}
               <Route path="/" element={<Home />} />
               <Route path="/login" element={<Login />} />
 
-              {/* Intern Verification, Employee & HR portals (protected if needed) */}
-              {/* Wrap in ProtectedRoute if these are secured */}
-              <Route
-                path="/intern-verification"
-                element={
-                  
-                    <InternVerification />
-                 
-                }
-              />
-              <Route
-                path="/employee-portal"
-                element={
-                  
-                    <EmployeePortal />
-                  
-                }
-              />
-              <Route
-                path="/hr-portal"
-                element={
-                  
-                    <HRPortal />
-                 
-                }
-              />
+              {/* Optional public or protected */}
+              <Route path="/intern-verification" element={<InternVerification />} />
+              <Route path="/employee-portal" element={<EmployeePortal />} />
+              <Route path="/hr-portal" element={<HRPortal />} />
 
-              {/* Add Intern & Employee */}
+              {/* Protected Routes under /dashboard layout */}
               <Route
-                path="/add-intern"
+                path="/dashboard"
                 element={
-                  
-                    <AddIntern />
-                 
-                }
-              />
-              <Route
-                path="/add-employee"
-                element={
-                  
-                    <AddEmployee />
-                  
-                }
-              />
-
-              {/* Admin Add User (if needed) */}
-              {/* <Route
-                path="/admin-add-user"
-                element={
-                  <ProtectedRoute adminOnly>
-                    <AdminAddUserForm />
+                  <ProtectedRoute>
+                    <Layout />
                   </ProtectedRoute>
                 }
-              /> */}
-
-              
-              {/* Dashboard nested inside Layout for main page structure */}
-              <Route path="/login" element={<Login />} />
-              <Route path="/dashboard" element={
-  <ProtectedRoute>
-    <Layout />
-  </ProtectedRoute>
-}>
-
+              >
                 <Route index element={<Dashboard />} />
                 <Route path="add-intern" element={<AddIntern />} />
                 <Route path="add-employee" element={<AddEmployee />} />
+                <Route path="add-admin" element={<AddAdmin />} />
               </Route>
 
-              {/* Catch-all or fallback routes could go here */}
+              {/* Catch-all fallback route (optional) */}
+              {/* <Route path="*" element={<NotFound />} /> */}
+
             </Routes>
           </main>
         </div>
