@@ -41,7 +41,7 @@ const Login = () => {
           <div className="flex justify-center">
             <ClipboardCheck className="h-14 w-14 text-blue-600" />
           </div>
-          <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">EmpVerify</h2>
+          <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">Admin Console</h2>
           <p className="mt-2 text-center text-sm text-gray-600">
             Sign in to access the employee verification system
           </p>
@@ -138,7 +138,7 @@ const Login = () => {
 
             <div className="mt-4 grid grid-cols-1 gap-3">
               <div className="bg-gray-50 p-3 rounded-md text-sm">
-                <p><strong>Admin:</strong> sanket@example.com / password</p>
+                {/* <p><strong>Admin:</strong> sanket@example.com / password</p> */}
                 {/* <p><strong>Sub Admin:</strong> tanmai@example.com / password</p>
                 <p><strong>HR:</strong> hr@example.com / password</p> */}
               </div>
