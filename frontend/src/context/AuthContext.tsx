@@ -22,23 +22,34 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [loading, setLoading] = useState(false);
 
   const login = async (email: string, password: string): Promise<boolean> => {
-    setLoading(true);
-    try {
-      // Here you can call your real API
-      // Simulate authentication
-      if (password === 'password') {
-        setUser({ email });
-        return true;
-      } else {
-        return false;
-      }
-    } catch (error) {
-      console.error('Login error:', error);
+  setLoading(true);
+  try {
+    const response = await fetch(`${import.meta.env.VITE_API_URL}/auth/login`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ email, password }),
+    });
+
+    if (response.ok) {
+      const data = await response.json();
+      
+      // You could save a token or user info here
+      setUser({ email: data.email }); // or setUser(data.user)
+      
+      return true;
+    } else {
       return false;
-    } finally {
-      setLoading(false);
     }
-  };
+  } catch (error) {
+    console.error('Login error:', error);
+    return false;
+  } finally {
+    setLoading(false);
+  }
+};
+
 
   const logout = () => {
     setUser(null);
