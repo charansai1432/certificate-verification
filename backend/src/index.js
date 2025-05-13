@@ -5,7 +5,7 @@ import mongoose from 'mongoose';
 import internRoutes from './routes/intern.js';
 import employeeRoutes from './routes/employee.js';
 import adminRoutes from './routes/admin.js';
-
+import authRoutes from './routes/auth.js';
 dotenv.config();
 
 const app = express();
@@ -21,6 +21,7 @@ mongoose.connect(process.env.MONGODB_URI)
   .catch((err) => console.error('MongoDB connection error:', err));
 
 // Routes
+app.use('/auth', authRoutes);
 app.use('/api/interns', internRoutes);
 app.use('/api/employee', employeeRoutes);
 app.use('/api/admin', adminRoutes);
