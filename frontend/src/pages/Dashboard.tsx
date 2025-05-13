@@ -100,6 +100,16 @@ const Dashboard: React.FC = () => {
             <p>Register a new employee to the system</p>
           </div>
         </Link>
+        <Link to="/add-admin" className="action-card">
+  <div className="action-icon">
+    <UserPlus size={24} />
+  </div>
+  <div className="action-info">
+    <h3>Add New Admin</h3>
+    <p>Register a new admin to the system</p>
+  </div>
+</Link>
+
       </div>
     </div>
   );
