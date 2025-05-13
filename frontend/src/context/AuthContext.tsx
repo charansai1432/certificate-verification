@@ -1,9 +1,7 @@
-// src/context/AuthContext.tsx
-import React, { createContext, useContext, useState, ReactNode } from 'react';
+import React, { createContext, useContext, useState, ReactNode, useEffect } from 'react';
 
 interface User {
   email: string;
-  role: string;
 }
 
 interface AuthContextType {
@@ -30,7 +28,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
       if (response.ok) {
         const data = await response.json();
-        setUser({ email: data.email, role: data.role }); // store user
+        setUser({ email: data.email }); // ✅ only email is stored now
         return true;
       } else {
         return false;
