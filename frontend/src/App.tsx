@@ -17,7 +17,7 @@ import Dashboard from './pages/Dashboard';
 import AddIntern from './pages/AddIntern';
 import AddEmployee from './pages/AddEmployee';
 import AddAdmin from './pages/AddAdmin';
-
+import CertificateGenerator from './components/CertificateGenerator';
 import { Toaster } from 'react-hot-toast';
 
 import './App.css';
@@ -27,12 +27,10 @@ function App() {
     <AuthProvider>
       <Router>
         <Toaster position="top-right" />
-
         <div className="min-h-screen bg-gray-50">
           <Navbar />
           <main className="container mx-auto px-4 py-8">
             <Routes>
-
               {/* Public Routes */}
               <Route path="/" element={<Home />} />
               <Route path="/login" element={<Login />} />
@@ -55,11 +53,11 @@ function App() {
                 <Route path="add-intern" element={<AddIntern />} />
                 <Route path="add-employee" element={<AddEmployee />} />
                 <Route path="add-admin" element={<AddAdmin />} />
+                <Route path="generate-certificate" element={<CertificateGenerator />} />
               </Route>
 
               {/* Catch-all fallback route (optional) */}
               {/* <Route path="*" element={<NotFound />} /> */}
-
             </Routes>
           </main>
         </div>

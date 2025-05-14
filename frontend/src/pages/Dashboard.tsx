@@ -109,6 +109,16 @@ const Dashboard: React.FC = () => {
     <p>Register a new admin to the system</p>
   </div>
 </Link>
+<Link to="generate-certificate" className="action-card">
+  <div className="action-icon">
+    <BarChart size={24} />
+  </div>
+  <div className="action-info">
+    <h3>Generate Certificate</h3>
+    <p>Issue a certificate for an intern </p>
+  </div>
+</Link>
+
 
       </div>
     </div>

@@ -51,7 +51,7 @@ const AddEmployee: React.FC = () => {
       newErrors.email = 'Email is invalid';
     }
     if (!formData.phone.trim()) newErrors.phone = 'Phone number is required';
-    if (!formData.joiningDate) newErrors.joiningDate = 'Joining date is required';
+    //if (!formData.joiningDate) newErrors.joiningDate = 'Joining date is required';
     
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
@@ -270,7 +270,7 @@ const payload = { ...formData, employeeId: employeeId };
           
           <div className="form-row">
             <div className="form-group">
-              <label htmlFor="joiningDate" className="form-label">Joining Date *</label>
+              <label htmlFor="joiningDate" className="form-label">Joining Date </label>
               <input
                 type="date"
                 id="joiningDate"
