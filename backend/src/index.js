@@ -6,6 +6,7 @@ import internRoutes from './routes/intern.js';
 import employeeRoutes from './routes/employee.js';
 import adminRoutes from './routes/admin.js';
 import authRoutes from './routes/auth.js';
+import certificateRoutes from './routes/certificateRoutes.js';
 
 dotenv.config();
 
@@ -27,6 +28,7 @@ app.use('/api/auth', authRoutes);
 app.use('/api/interns', internRoutes);
 app.use('/api/employee', employeeRoutes);
 app.use('/api/admin', adminRoutes);
+app.use('/api', certificateRoutes);
 
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);
