@@ -46,22 +46,27 @@ router.post('/add', async (req, res) => {
 });
 
 // ✅ Verify Intern Route
+// ✅ Verify Intern Route
 router.get('/verify/:id', async (req, res) => {
   try {
     console.log("Verifying intern ID:", req.params.id);
 
-    const intern = await Promise.any([
+    // Query all collections
+    const interns = await Promise.all([
       HRIntern.findOne({ id: req.params.id }),
       SoftwareIntern.findOne({ id: req.params.id }),
-      TalentIntern.findOne({ id: req.params.id }),
-    ]).catch(() => null);
+      TalentIntern.findOne({ id: req.params.id })
+    ]);
 
-    if (!intern) {
+    // Find the intern that exists
+    const foundIntern = interns.find(intern => intern !== null);
+
+    if (!foundIntern) {
       return res.status(404).json({ message: 'Intern not found' });
     }
 
-    console.log("Intern found:", intern);
-    res.status(200).json(intern);
+    console.log("Intern found:", foundIntern);
+    res.status(200).json(foundIntern);
   } catch (err) {
     console.error("Error in /verify route:", err);
     res.status(500).json({ message: 'Server error', error: err.message });

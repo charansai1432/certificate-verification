@@ -1,6 +1,5 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState } from 'react';
 import { Search, AlertCircle, CheckCircle, Download } from 'lucide-react';
-import { verifyIntern } from '../api/intern.ts';
 
 interface InternDetails {
   name?: string;
@@ -18,15 +17,16 @@ const InternVerification = () => {
   const [error, setError] = useState('');
   const [internDetails, setInternDetails] = useState<InternDetails | null>(null);
 
-
-  
-
   const fetchInternDetails = async (id: string) => {
     setLoading(true);
     setError('');
     try {
-      const data = await verifyIntern(id.trim());
-      console.log("Fetched intern data:", data); // Debug
+      const res = await fetch(`http://localhost:5000/api/interns/verify/${internId}`);
+  // Adjust port if needed
+      if (!res.ok) {
+        throw new Error('Intern not found');
+      }
+      const data = await res.json();
       setInternDetails(data);
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Verification failed');
@@ -38,7 +38,7 @@ const InternVerification = () => {
 
   const handleVerification = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+    if (!internId) return;
     await fetchInternDetails(internId);
   };
 
@@ -143,36 +143,14 @@ const InternVerification = () => {
           </div>
 
           <div className="space-y-4 mb-6">
-            <div>
-              <p className="text-sm text-gray-500">Name</p>
-              <p className="text-lg font-medium text-gray-900">
-                {internDetails.name || 'N/A'}
-              </p>
-            </div>
-            <div>
-              <p className="text-sm text-gray-500">Department</p>
-              <p className="text-lg font-medium text-gray-900">
-                {internDetails.department || 'N/A'}
-              </p>
-            </div>
-            <div>
-              <p className="text-sm text-gray-500">Role</p>
-              <p className="text-lg font-medium text-gray-900">
-                {internDetails.role || 'N/A'}
-              </p>
-            </div>
-            <div>
-              <p className="text-sm text-gray-500">Gender</p>
-              <p className="text-lg font-medium text-gray-900">
-                {internDetails.gender || 'N/A'}
-              </p>
-            </div>
-            <div>
-              <p className="text-sm text-gray-500">Company</p>
-              <p className="text-lg font-medium text-gray-900">
-                {internDetails.company || 'N/A'}
-              </p>
-            </div>
+            {['name', 'department', 'role', 'gender', 'company'].map((field) => (
+              <div key={field}>
+                <p className="text-sm text-gray-500">{field.charAt(0).toUpperCase() + field.slice(1)}</p>
+                <p className="text-lg font-medium text-gray-900">
+                  {internDetails?.[field as keyof InternDetails] || 'N/A'}
+                </p>
+              </div>
+            ))}
             <div>
               <p className="text-sm text-gray-500">Internship Period</p>
               <p className="text-lg font-medium text-gray-900">
