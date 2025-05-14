@@ -5,8 +5,7 @@ interface InternshipDetails {
   name: string;
   department: string;
   company: string;
-  startDate: string;
-  endDate: string;
+  duration: string;
   isVerified: boolean;
 }
 
@@ -20,24 +19,29 @@ const HRPortal = () => {
     e.preventDefault();
     setLoading(true);
     setError('');
-    
+    setInternshipDetails(null);
+
     try {
-      // Mock API call - replace with actual API integration
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      
-      if (certificateId === 'CERT-2024-001') { // Mock successful verification
-        setInternshipDetails({
-          name: 'John Doe',
-          department: 'Software Development',
-          company: 'Tech Solutions Inc.',
-          startDate: '2024-04-01',
-          endDate: '2024-07-31',
-          isVerified: true
-        });
-      } else {
-        setError('Invalid certificate ID. Please check and try again.');
+      const response = await fetch(`http://localhost:5000/api/certificates/${certificateId}`);
+      if (!response.ok) {
+        if (response.status === 404) {
+          setError('Invalid certificate ID. Please check and try again.');
+        } else {
+          setError('An error occurred while verifying the certificate.');
+        }
+        return;
       }
+
+      const data = await response.json();
+      setInternshipDetails({
+        name: data.name,
+        department: data.program,
+        company: data.company || 'GreatHire',
+        duration: data.duration,
+        isVerified: true
+      });
     } catch (err) {
+      console.error(err);
       setError('An error occurred while verifying the certificate.');
     } finally {
       setLoading(false);
@@ -64,7 +68,7 @@ const HRPortal = () => {
                 value={certificateId}
                 onChange={(e) => setCertificateId(e.target.value)}
                 className="pl-10 pr-4 py-2 w-full border border-gray-300 rounded-md focus:ring-2 focus:ring-sky-500 focus:border-sky-500"
-                placeholder="e.g., CERT-2024-001"
+                placeholder="e.g., 612437"
               />
             </div>
           </div>
@@ -121,20 +125,8 @@ const HRPortal = () => {
             <div className="flex items-center">
               <Calendar className="h-5 w-5 text-sky-500 mr-3" />
               <div>
-                <p className="text-sm text-gray-500">Internship Period</p>
-                <p className="text-lg font-medium text-gray-900">
-                  {new Date(internshipDetails.startDate).toLocaleDateString('en-US', {
-                    year: 'numeric',
-                    month: 'long',
-                    day: 'numeric'
-                  })}
-                  {' '} to {' '}
-                  {new Date(internshipDetails.endDate).toLocaleDateString('en-US', {
-                    year: 'numeric',
-                    month: 'long',
-                    day: 'numeric'
-                  })}
-                </p>
+                <p className="text-sm text-gray-500">Internship Duration</p>
+                <p className="text-lg font-medium text-gray-900">{internshipDetails.duration}</p>
               </div>
             </div>
           </div>

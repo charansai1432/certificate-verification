@@ -1,9 +1,9 @@
-// routes/certificateRoutes.js
 import express from 'express';
 import Certificate from '../models/certificateModel.js';
 
 const router = express.Router();
 
+// Route to save a new certificate
 router.post('/certificates', async (req, res) => {
   try {
     const newCert = new Certificate(req.body);
@@ -15,6 +15,7 @@ router.post('/certificates', async (req, res) => {
   }
 });
 
+// Route to get certificate details by ID
 router.get('/certificates/:idNumber', async (req, res) => {
   try {
     const cert = await Certificate.findOne({ idNumber: req.params.idNumber });
@@ -25,10 +26,11 @@ router.get('/certificates/:idNumber', async (req, res) => {
       name: cert.name,
       program: cert.program,
       duration: cert.duration,
-      company: 'GreatHire' // default
+      company: 'GreatHire' // Default company value
     });
   } catch (err) {
     res.status(500).json({ error: 'Error fetching certificate' });
   }
 });
+
 export default router;
