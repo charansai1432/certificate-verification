@@ -15,4 +15,20 @@ router.post('/certificates', async (req, res) => {
   }
 });
 
+router.get('/certificates/:idNumber', async (req, res) => {
+  try {
+    const cert = await Certificate.findOne({ idNumber: req.params.idNumber });
+    if (!cert) {
+      return res.status(404).json({ message: 'Certificate not found' });
+    }
+    res.json({
+      name: cert.name,
+      program: cert.program,
+      duration: cert.duration,
+      company: 'GreatHire' // default
+    });
+  } catch (err) {
+    res.status(500).json({ error: 'Error fetching certificate' });
+  }
+});
 export default router;
