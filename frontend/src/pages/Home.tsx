@@ -19,7 +19,7 @@ const Home = () => {
           <UserCheck className="h-12 w-12 text-sky-500 mx-auto mb-4" />
           <h2 className="text-xl font-semibold text-gray-900 mb-2">Intern Verification</h2>
           <p className="text-gray-600">
-            Verify your internship certificate using your unique intern ID
+            Verify your intern details using your unique intern ID
           </p>
         </Link>
 
@@ -41,7 +41,7 @@ const Home = () => {
           <Building2 className="h-12 w-12 text-sky-500 mx-auto mb-4" />
           <h2 className="text-xl font-semibold text-gray-900 mb-2">HR Portal</h2>
           <p className="text-gray-600">
-            Verify and manage intern certificates and employee records
+            Verify and manage intern certificates 
           </p>
         </Link>
       </div>
