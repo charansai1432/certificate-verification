@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Search, AlertCircle, CheckCircle, Download } from 'lucide-react';
+import { Search, AlertCircle, CheckCircle } from 'lucide-react';
 
 interface InternDetails {
   name?: string;
@@ -22,7 +22,7 @@ const InternVerification = () => {
     setError('');
     try {
       const res = await fetch(`http://localhost:5000/api/interns/verify/${internId}`);
-  // Adjust port if needed
+      // Adjust port if needed
       if (!res.ok) {
         throw new Error('Intern not found');
       }
@@ -40,57 +40,6 @@ const InternVerification = () => {
     e.preventDefault();
     if (!internId) return;
     await fetchInternDetails(internId);
-  };
-
-  const generateCertificate = () => {
-    if (!internDetails) return;
-
-    const certificateContent = `
-      <html>
-        <head>
-          <style>
-            body { font-family: Arial, sans-serif; margin: 40px; }
-            .certificate {
-              max-width: 800px;
-              margin: 0 auto;
-              padding: 40px;
-              border: 2px solid #0EA5E9;
-              text-align: center;
-            }
-            .header { font-size: 32px; color: #0EA5E9; margin-bottom: 20px; }
-            .content { font-size: 18px; line-height: 1.6; margin: 20px 0; }
-            .footer { margin-top: 40px; font-size: 14px; }
-          </style>
-        </head>
-        <body>
-          <div class="certificate">
-            <div class="header">Internship Certificate</div>
-            <div class="content">
-              This is to certify that<br/>
-              <strong>${internDetails.name || 'Unnamed Intern'}</strong><br/>
-              has successfully completed an internship as<br/>
-              <strong>${internDetails.role || 'Role not specified'}</strong><br/>
-              in the ${internDetails.department || 'Unknown'} department at<br/>
-              <strong>${internDetails.company || 'Unnamed Company'}</strong><br/>
-              from ${internDetails.startDate ? new Date(internDetails.startDate).toLocaleDateString() : 'N/A'} to ${internDetails.endDate ? new Date(internDetails.endDate).toLocaleDateString() : 'N/A'}
-            </div>
-            <div class="footer">
-              Date of Issue: ${new Date().toLocaleDateString()}
-            </div>
-          </div>
-        </body>
-      </html>
-    `;
-
-    const blob = new Blob([certificateContent], { type: 'text/html' });
-    const url = window.URL.createObjectURL(blob);
-    const link = document.createElement('a');
-    link.href = url;
-    link.download = `internship_certificate_${internId}.html`;
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-    window.URL.revokeObjectURL(url);
   };
 
   return (
@@ -160,14 +109,6 @@ const InternVerification = () => {
               </p>
             </div>
           </div>
-
-          <button
-            onClick={generateCertificate}
-            className="flex items-center justify-center w-full bg-sky-500 text-white py-2 px-4 rounded-md hover:bg-sky-600 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-offset-2"
-          >
-            <Download className="h-5 w-5 mr-2" />
-            Download Certificate
-          </button>
         </div>
       )}
     </div>
