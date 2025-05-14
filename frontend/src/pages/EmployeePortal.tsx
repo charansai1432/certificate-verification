@@ -5,7 +5,7 @@ interface EmployeeDetails {
   name: string;
   department: string;
   gender: string;
-  joinDate: string;
+  joiningDate: string;
   position: string;
 }
 
@@ -115,7 +115,7 @@ const EmployeePortal = () => {
               <div>
                 <p className="text-sm text-gray-500">Join Date</p>
                 <p className="text-lg font-medium text-gray-900">
-                  {new Date(employeeDetails.joinDate).toLocaleDateString('en-US', {
+                  {new Date(employeeDetails.joiningDate).toLocaleDateString('en-US', {
                     year: 'numeric',
                     month: 'long',
                     day: 'numeric'
