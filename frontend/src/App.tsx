@@ -17,7 +17,8 @@ import Dashboard from './pages/Dashboard';
 import AddIntern from './pages/AddIntern';
 import AddEmployee from './pages/AddEmployee';
 import AddAdmin from './pages/AddAdmin';
-import CertificateGenerator from './components/CertificateGenerator';
+import { Navigate } from 'react-router-dom';
+
 import { Toaster } from 'react-hot-toast';
 
 import './App.css';
@@ -53,7 +54,7 @@ function App() {
                 <Route path="add-intern" element={<AddIntern />} />
                 <Route path="add-employee" element={<AddEmployee />} />
                 <Route path="add-admin" element={<AddAdmin />} />
-                <Route path="generate-certificate" element={<CertificateGenerator />} />
+                <Route path="generate-certificate" element={<Navigate to="/certificate.html" replace />} />
               </Route>
 
               {/* Catch-all fallback route (optional) */}
