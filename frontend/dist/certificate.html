@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Automated Certificate Generator</title>
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Playfair+Display:ital,wght@1,700&family=Cinzel:wght@700&family=Italianno&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=MedievalSharp&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@1,700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Italianno&display=swap" rel="stylesheet">
+
+  <style>
+    /* form styles */
+    body { margin:0; padding:2rem; font-family:'Lato',sans-serif; background:#f5f5f5; }
+    .form-container { max-width:600px; margin:0 auto 2rem; background:#fff; padding:1.5rem; border-radius:8px; box-shadow:0 2px 8px rgba(0,0,0,0.1); }
+    .form-container h2 { margin-top:0; }
+    .form-group { margin-bottom:1rem; }
+    .form-group label { display:block; font-weight:bold; margin-bottom:.5rem; }
+    .form-group input { width:100%; padding:.5rem; font-size:1rem; border:1px solid #ccc; border-radius:4px; }
+    #generate-btn { display:block; margin: 1.5rem auto 0; padding:.75rem 1.5rem; background:#1a73e8; color:#fff; border:none;border-radius:4px;cursor:pointer; }
+
+    /* certificate styles */
+    .certificate-container {
+      width: 1000px;
+  height: 700px;
+  /* no padding, so we get a true 1 000×700 canvas */
+  padding: 0;
+  /* stretch the template to fill the box exactly */
+  background: url('/assets/CERTIFICATE -2.png') no-repeat center center;
+  background-size: 100% 100%;
+  position: relative;
+  overflow: hidden;  /* hide anything that spills out */
+  margin: 0 auto;
+    }
+    .certificate-content {
+      position:absolute; top:2%; left:5%; right:5%; bottom:2%; text-align:center;
+    }
+    .certificate-header img {
+      display:inline-block; width:29%; margin:1rem auto;
+    }
+    .certificate-title {
+      font-family:'Libre Baskerville', serif; font-size:4rem; font-weight:bold;
+      letter-spacing:.05em; text-transform:uppercase; line-height:1; margin:0 0 1rem;
+    }
+    .certificate-subtitle {
+      display:inline-flex; align-items:center; justify-content:center;
+      font-size:2.75rem; letter-spacing:.1em; text-transform:uppercase; color:#095198;
+      margin:0 0 .4rem;
+    }
+    .certificate-subtitle::before,
+    .certificate-subtitle::after {
+      content:""; display:inline-block; width:1em; height:1em;
+      background:url('/assets/arrow.png') no-repeat center center;
+      background-size:contain;
+    }
+    .certificate-subtitle::before { margin-right:.2em; transform:scaleX(1); }
+    .certificate-subtitle::after  { margin-left:.2em; transform:scaleX(-1); }
+    .certificate-company {
+      font-family:'Cinzel',serif; font-size:1.4rem; font-weight:900;
+      text-transform:uppercase; letter-spacing:.07em; color:#555;
+      margin:.7rem 0 -0.8rem;
+    }
+    .description { font-size:1rem; color:#142f7bd6; line-height:1.5; margin:.5rem 0; }
+    .recipient-name {
+      font-family:'Italianno',cursive; font-size:4rem; font-weight:700;
+      color:#0847c6dc; margin:-.9rem 0; position:relative; display:inline-block;
+    }
+    .recipient-name::after {
+      content:""; display:block; width:100%; height:2px; background:#1a73e8; margin-top:-.2em;
+    }
+    .date-number-section {
+      font-size:1.6rem; font-weight:bold; color:#333; margin:-0.5rem 0 -1.8rem;
+    }
+
+/* new: center the stamp under the ID number */
+.stamp-block {
+  text-align: center;
+  margin: 2.7rem 0;    /* space above & below */
+    position: relative; /* for the gold seal */
+    width: 100%;       /* full width of the certificate */
+}
+
+.stamp-img {
+  display: inline-block;
+  width: 130px;        /* adjust size to taste */
+  height: auto;
+}
+/* 1) Underline the date */
+.date-value {
+  display: inline-block;      /* shrink‐wraps to text width */
+  border-bottom: 2px solid #333;
+  padding-bottom: 0.25rem;     /* a little breathing room above the line */
+}
+
+/* 2) Underline the signature image */
+.signature-img {
+  display: block;              /* so border spans the full image width */
+  border-bottom: 2px solid #333;
+  padding-bottom: 0.25rem;     /* space between image and line */
+  margin-bottom: 0.5rem;       /* space between line and name caption */
+}
+
+/* tighten up your signature‑section now with just two items */
+.signature-section {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  /* position it 20px up from the bottom of the container */
+  position: absolute;
+  bottom: 20px;
+  left: 5%;
+  right: 5%;
+
+  .date-block {
+  margin-left: 5rem;    /* ← pushes the date to the right */
+  text-align: center;
+  position: relative;
+  bottom: -30px
+}
+}
+
+    .date-block, .sign-block { text-align:center; position:relative;   }
+    .date-value {
+      font-size:1.5rem; color:#030303; margin-bottom:.25rem;
+    }
+    .signature-line {
+      width:130px; height:2px; background:#333; margin:.5rem auto;
+    }
+    .signature-caption, .sign-name {
+      font-size:1.3rem; color:#1d229c; margin:.4rem 0;
+    }
+    .signature-img {
+      max-width:250px; display:block; margin:0 auto .5rem;
+    }
+    /* .gold-seal {
+      position:absolute; bottom:2%; left:50%; transform:translateX(-50%);
+      width:8vw; max-width:80px;
+      background:url('./assets/gold-seal.png') no-repeat center center;
+      background-size:contain;
+    } */
+  </style>
+</head>
+<body>
+
+  <!-- 1) Input form -->
+  <div class="form-container">
+    <h2>Enter Certificate Details</h2>
+    <div class="form-group">
+      <label for="name">Name</label>
+      <input id="name" type="text" placeholder="Full Name"/>
+    </div>
+    <div class="form-group">
+      <label for="program">Internship Program</label>
+      <input id="program" type="text" placeholder="e.g. Human Resources"/>
+    </div>
+    <div class="form-group">
+      <label for="duration">Duration</label>
+      <input id="duration" type="text" placeholder="12-November-2024 to 20-March-2025"/>
+    </div>
+    <!-- <div class="form-group">
+      <label for="idNo">ID Number</label>
+      <input id="idNo" type="text" placeholder="123456"/> -->
+    </div>
+    <button id="generate-btn">Preview & Download PDF</button>
+    
+  </div> 
+
+  <!-- 2) Certificate preview -->
+  <div class="certificate-container" id="certificate">
+    <div class="certificate-content">
+      <div class="certificate-header">
+        <img src="/assets/GreatHireLogo-preview.png" alt="Great Hire Logo"/>
+      </div>
+      <h1 class="certificate-title">
+        Certificate<br>
+        <span class="certificate-subtitle">OF INTERNSHIP</span>
+      </h1>
+      <h6 class="certificate-company"><strong>Great Hire By Babde PVT LTD</strong></h6>
+      <p class="description">This certificate is awarded to</p>
+      <div class="recipient-name" id="cert-name">[Name]</div>
+      <p class="description" id="cert-description">
+        In recognition of <br>
+        His/ Her successfully completing the 128-days in <br>
+        [Program] Internship Program, showcasing exceptional<br>
+         performance and dedication <br>
+        conducted from [Duration].
+    </p>
+      </p>
+      <!-- ID Number -->
+    <!-- 1) … your description and ID number … -->
+    <div class="date-number-section">
+        <strong>ID Number:</strong> <span id="cert-id">500051</span>
+      </div>
+    
+      <!-- 2) center‑aligned stamp -->
+      <div class="stamp-block">
+        <img
+          src="/assets/stamp.png"
+          alt="Official Stamp"
+          class="stamp-img"
+        />
+      </div>
+    
+      <!-- 3) your date & signature row -->
+      <div class="signature-section">
+        <div class="date-block">
+          <div class="date-value" id="cert-date">5/8/2025</div>
+          <div class="signature-caption">Date</div>
+        </div>
+    
+        <div class="sign-block">
+          <img
+            src="/assets/image.png"
+            crossOrigin="anonymous"
+            alt="Signature"
+            class="signature-img"
+          />
+          <div class="sign-name">Sanket Babde<br/>CEO / Founder</div>
+        </div>
+      </div>
+
+      <div class="gold-seal"></div>
+    </div>
+  </div>
+
+  <!-- 3) html2canvas & jsPDF -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script>
+  document.getElementById('generate-btn').addEventListener('click', async () => {
+    // --- 1) Read & inject dynamic fields ---
+    const name     = document.getElementById('name').value.trim()     || '—';
+    const program  = document.getElementById('program').value.trim()  || '—';
+    const duration = document.getElementById('duration').value.trim() || '—';
+    const idNo     = Math.floor(100000 + Math.random() * 900000).toString();
+
+    document.getElementById('cert-name').innerText = name;
+    document.getElementById('cert-description').innerHTML =
+      `In recognition of<br>
+       His/Her successfully completing the 128‑days in
+       <strong>${program}</strong><br>
+       Internship Program, showcasing exceptional<br>
+       performance and dedication<br>
+       conducted from <strong>${duration}</strong>.`;
+    document.getElementById('cert-id').innerText   = idNo;
+    document.getElementById('cert-date').innerText = new Date().toLocaleDateString();
+
+    // --- 2) Force fixed 1000×700px container size ---
+    const certEl = document.getElementById('certificate');
+    certEl.style.width  = '1000px';
+    certEl.style.height = '700px';
+
+    // --- 3) Capture the entire area ---
+    const canvas = await html2canvas(certEl, {
+      scale: 2,
+      width:  certEl.scrollWidth,
+      height: certEl.scrollHeight
+    });
+
+    // --- 4) Build & download the PDF ---
+    const imgData = canvas.toDataURL('image/png');
+    const { jsPDF } = window.jspdf;
+    const pdf = new jsPDF({
+      unit: 'px',
+      format: [canvas.width, canvas.height],
+      orientation: canvas.width > canvas.height ? 'landscape' : 'portrait'
+    });
+    pdf.addImage(imgData, 'PNG', 0, 0, canvas.width, canvas.height);
+    pdf.save(`${name.replace(/\s+/g,'_')}_certificate.pdf`);
+    // --- 5) Save data to MongoDB ---
+fetch('http://localhost:5000/api/certificates', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json'
+  },
+  body: JSON.stringify({
+    name: name,
+    program: program,
+    duration: duration,
+    idNumber: idNo,
+    date: new Date().toISOString()
+  })
+})
+.then(response => response.json())
+.then(data => console.log('Certificate saved:', data))
+.catch(error => console.error('Error saving to database:', error));
+  });
+</script>
+
+</body>
+</html>
