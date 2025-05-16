@@ -21,7 +21,7 @@ const InternVerification = () => {
     setLoading(true);
     setError('');
     try {
-      const res = await fetch(`https://emp.greathire.in/api/interns/verify/${internId}`);
+      const res = await fetch(`/api/interns/verify/${internId}`);
       // Adjust port if needed
       if (!res.ok) {
         throw new Error('Intern not found');
