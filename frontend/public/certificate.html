@@ -271,7 +271,7 @@
     pdf.addImage(imgData, 'PNG', 0, 0, canvas.width, canvas.height);
     pdf.save(`${name.replace(/\s+/g,'_')}_certificate.pdf`);
     // --- 5) Save data to MongoDB ---
-fetch('http://localhost:5000/api/certificates', {
+fetch(`${import.meta.env.VITE_API_URL}/certificates`), {
   method: 'POST',
   headers: {
     'Content-Type': 'application/json'
