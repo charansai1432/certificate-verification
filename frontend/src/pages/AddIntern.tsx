@@ -18,7 +18,7 @@ interface FormData {
   endDate: string;
   mentor: string;
 }
-const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+const API_BASE = import.meta.env.VITE_API_URL ;
 const AddIntern: React.FC = () => {
   const navigate = useNavigate();
   const [isSubmitting, setIsSubmitting] = useState(false);
