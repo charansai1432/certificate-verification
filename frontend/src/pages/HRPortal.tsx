@@ -68,7 +68,7 @@ const HRPortal = () => {
                 value={certificateId}
                 onChange={(e) => setCertificateId(e.target.value)}
                 className="pl-10 pr-4 py-2 w-full border border-gray-300 rounded-md focus:ring-2 focus:ring-sky-500 focus:border-sky-500"
-                placeholder="e.g., 612437"
+                placeholder="e.g., 61243567"
               />
             </div>
           </div>
