@@ -74,7 +74,7 @@ const Dashboard: React.FC = () => {
         />
         <StatsCard 
           title="Departments" 
-          value= {stats.departments}
+          value= {4}
           icon={<BarChart size={24} />} 
           color="#06b6d4" 
         />
