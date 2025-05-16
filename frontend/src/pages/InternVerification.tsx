@@ -21,8 +21,7 @@ const InternVerification = () => {
     setLoading(true);
     setError('');
     try {
-      const res = await fetch(`/api/interns/verify/${internId}`);
-      // Adjust port if needed
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/interns/verify/${internId}`);      // Adjust port if needed
       if (!res.ok) {
         throw new Error('Intern not found');
       }

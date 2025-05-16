@@ -22,8 +22,7 @@ const EmployeePortal = () => {
   setEmployeeDetails(null);
 
   try {
-    const response = await fetch(`https://emp.greathire.in/api/employee/${employeeId}`);
-    
+    const response = await fetch(`${import.meta.env.VITE_API_URL}/employee/${employeeId}`);
     if (!response.ok) {
       throw new Error('Employee not found');
     }

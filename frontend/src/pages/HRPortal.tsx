@@ -22,7 +22,7 @@ const HRPortal = () => {
     setInternshipDetails(null);
 
     try {
-      const response = await fetch(`https://emp.greathire.in/api/certificates/${certificateId}`);
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/certificates/${certificateId}`);
       if (!response.ok) {
         if (response.status === 404) {
           setError('Invalid certificate ID. Please check and try again.');
